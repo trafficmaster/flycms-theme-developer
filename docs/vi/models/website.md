@@ -1,0 +1,4 @@
+# Website Model
+
+## Traits
+- HasMeta
