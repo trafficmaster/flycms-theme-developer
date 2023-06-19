@@ -36,5 +36,12 @@
 # Extensions
 - Danh sách các extensions trong template environment, xem thêm tại `./extensions`
 
+# Common Javascript
+
+Chèn app.js để sử dụng các common functions:
+```html
+<script src="{{ url('js/app.js') }}"></script>
+```
+
 # Lưu ý đặc biệt:
 - Trong template, không gọi model relation trực tiếp mà phải gọi qua hàm `model_relation` (Xem thêm: `./docs/model.md`)

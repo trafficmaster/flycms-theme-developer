@@ -1,0 +1,38 @@
+{% extends 'layouts/default.html' %}
+
+{% block content %}
+
+    {# Define a custom meta for home h1 #}
+    <h1>{{ website.getMetaValue('home-h1') ?: 'Create a website meta with key "home-h1" to change this text.' }}</h1>
+    <hr />
+
+    <h2>Sample 1: Get 8 latest publishments</h2>
+    {% set latestPublishmentsQuery = multikey_filter_publishment_query().sortBy('id').sortDesc().setLimit(8) %}
+    {% set latestPublishments = multikey_filter_get_publishments(latestPublishmentsQuery) %}
+    Total count: {{ multikey_filter_count(latestPublishmentsQuery) }}<br />
+    <div class="row mt-3">
+        {% for publishment in latestPublishments %}
+        <div class="col-6 col-lg-3 mb-3">
+            {% include 'components/publishment_box.html' with { publishment } %}
+        </div>
+        {% endfor %}
+    </div>
+    <hr />
+
+    <h2>Sample 2: Get publishments by categories</h2>
+    {% set allCategories = website_category_all() %}
+    {% for websiteCategory in allCategories %}
+
+        {% set categoryPublishmentsQuery = multikey_filter_publishment_query().sortBy('sorting').sortDesc().setLimit(8).setFilterKeys([websiteCategory.id]) %}
+        <h3>Category: <a href="{{ link_to(websiteCategory) }}">{{ websiteCategory.title }}</a> (Total: {{ multikey_filter_count(categoryPublishmentsQuery) }})</h3>
+        <div class="row">
+            {% set categoryPublishments = multikey_filter_get_publishments(categoryPublishmentsQuery) %}
+            {% for publishment in categoryPublishments %}
+            <div class="col-6 col-lg-3 mb-3">
+                {% include 'components/publishment_box.html' with { publishment } %}
+            </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+{% endblock %}

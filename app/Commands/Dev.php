@@ -28,7 +28,7 @@ class Dev extends Command
 
     protected string $path;
 
-    protected int $themeId;
+    protected string $themeId;
 
     protected int $syncAttempts = 0;
 
@@ -134,7 +134,7 @@ class Dev extends Command
 
             $themeId = json_decode($createThemeResponse->getBody())->data->id;
         }
-        $themeId = intval($themeId);
+        $themeId = trim($themeId);
         $this->themeId = $themeId;
 
         // Update website theme
@@ -168,11 +168,11 @@ class Dev extends Command
 
     /**
      * @param Client $client
-     * @param int $themeId
+     * @param string $themeId
      * @param RecursiveIteratorIterator $assetFiles
      * @return void
      */
-    protected function watchAssets(Client $client, int $themeId, RecursiveIteratorIterator $assetFiles)
+    protected function watchAssets(Client $client, string $themeId, RecursiveIteratorIterator $assetFiles)
     {
         // Get assets from api
         $assetResources = $this->getAllResources($client, 'api/assets', ['filter[theme_id]' => $themeId]);
@@ -239,11 +239,11 @@ class Dev extends Command
      * Watch views
      *
      * @param Client $client
-     * @param int $themeId
+     * @param string $themeId
      * @param RecursiveIteratorIterator $viewFiles
      * @return void
      */
-    protected function watchViews(Client $client, int $themeId, RecursiveIteratorIterator $viewFiles)
+    protected function watchViews(Client $client, string $themeId, RecursiveIteratorIterator $viewFiles)
     {
         // Get views from api
         $viewResources = $this->getAllResources($client, 'api/views', ['filter[theme_id]' => $themeId]);

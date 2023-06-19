@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ pageTitle }}</title>
+    <link href="{{ link_asset('css/bootstrap.css') }}" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reefjs@12/dist/reef.min.js"></script>
+    <script src="http://localhost/js/app.js?t={{ time() }}"></script>
+</head>
+<body>
+    {% include 'partials/navbar.html' %}
+
+    <div class="container my-5">
+        {{ block('content') }}
+    </div>
+
+    {% include 'partials/footer.html' %}
+
+    <script src="{{ link_asset('js/bootstrap.js') }}"></script>
+</body>
+</html>
