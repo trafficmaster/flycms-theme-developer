@@ -1,0 +1,82 @@
+{% extends 'layouts/default.html' %}
+
+{% block content %}
+
+    <h1>Publishment information:</h1>
+    <table class="table table-bordered">
+        <tr>
+            <td>Title</td>
+            <td>{{ publishment.title }}</td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td>{{ publishment.description }}</td>
+        </tr>
+    </table>
+    <br />
+
+    <h2>Part information:</h2>
+    <table class="table table-bordered">
+        <tr>
+            <td>Current part</td>
+            <td>{{ part.sequence }}</td>
+        </tr>
+        <tr>
+            <td>Total Parts</td>
+            <td>
+                {{ publishment.subject.parts_count }}
+                <hr />
+                {% for _part in parts %}
+                <a href="{{ link_publishment(publishment, _part.sequence) }}"
+                    {% if _part.sequence is same as part.sequence %}
+                    style="font-weight: bolder"
+                    {% endif %}
+                >{{ _part.title ?: 'Part ' ~ _part.sequence }}</a>,
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+    <br />
+
+    <h2>Media information:</h2>
+    <p>Media count: {{ count(media) }}</p>
+    <ul class="nav nav-tabs mb-3">
+        {% for index, _media in media %}
+        <li class="nav-item">
+            <a class="nav-link {{ not index ? 'active' : '' }}" aria-current="page" href="#">Media {{ index + 1 }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% for index, _media in media %}
+    <div class="media-details {{ index ? 'd-none' : '' }}" id="media-{{ _media.id }}">
+        <table class="table table-bordered">
+
+            <tr>
+                <th>ID</th>
+                <th>Size</th>
+                <th>CDNs</th>
+            </tr>
+
+            <!-- Media files -->
+            {% set files = model_relation(_media, 'files') %}
+            {% for file in files %}
+            <tr>
+                <td>{{ file.id }}</td>
+                <td>Type: {{ file.type.value() }}</td>
+                <td>
+                    <!-- CDNs -->
+                    {% set cdns = model_relation(file, 'cdns') %}
+                    {% for cdn in cdns %}
+                        {% set cdnFileUrl = cdn.getCdnHandler().getCdnFileUrl(cdn.cdnFile) %}
+                        <p>{{ cdn.name }} ({{ cdnFileUrl.getType().value() }}): {{ cdnFileUrl.getUrl() }}</p>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+    {% endfor %}
+
+{% endblock %}
