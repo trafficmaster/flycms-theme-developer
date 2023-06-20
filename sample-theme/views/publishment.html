@@ -2,6 +2,7 @@
 
 {% block content %}
 
+    <!-- Publishment info -->
     <h1>Publishment information:</h1>
     <table class="table table-bordered">
         <tr>
@@ -15,6 +16,7 @@
     </table>
     <br />
 
+    <!-- Part info -->
     <h2>Part information:</h2>
     <table class="table table-bordered">
         <tr>
@@ -38,22 +40,24 @@
     </table>
     <br />
 
+    <!-- Media info -->
     <h2>Media information:</h2>
     <p>Media count: {{ count(media) }}</p>
-    <ul class="nav nav-tabs mb-3">
+    <ul id="media-tabs" class="nav nav-tabs mb-3">
         {% for index, _media in media %}
         <li class="nav-item">
-            <a class="nav-link {{ not index ? 'active' : '' }}" aria-current="page" href="#">Media {{ index + 1 }}</a>
+            <span class="nav-link {{ not index ? 'active' : '' }}" aria-current="page" style="cursor: pointer" onclick="switchMediaTab(event)" data-media-id="{{ _media.id }}">Media {{ index + 1 }}</span>
         </li>
         {% endfor %}
     </ul>
 
     {% for index, _media in media %}
-    <div class="media-details {{ index ? 'd-none' : '' }}" id="media-{{ _media.id }}">
+    <div class="media-details" id="media-{{ _media.id }}" style="display: {{ index ? 'none' : '' }}">
         <table class="table table-bordered">
 
             <tr>
                 <th>ID</th>
+                <th>Type</th>
                 <th>Size</th>
                 <th>CDNs</th>
             </tr>
@@ -63,13 +67,23 @@
             {% for file in files %}
             <tr>
                 <td>{{ file.id }}</td>
-                <td>Type: {{ file.type.value() }}</td>
+                <td>{{ enum_value(file.type) }}</td>
+                <td>{{ file.size }} bytes</td>
                 <td>
                     <!-- CDNs -->
                     {% set cdns = model_relation(file, 'cdns') %}
-                    {% for cdn in cdns %}
+                    {% for index, cdn in cdns %}
                         {% set cdnFileUrl = cdn.getCdnHandler().getCdnFileUrl(cdn.cdnFile) %}
-                        <p>{{ cdn.name }} ({{ cdnFileUrl.getType().value() }}): {{ cdnFileUrl.getUrl() }}</p>
+                        <p>{{ cdn.name }} ({{ enum_value(cdnFileUrl.getType()) }})</p>
+
+                        <a href="{{ cdnFileUrl.getUrl() }}">
+                            <img src="{{ cdnFileUrl.getUrl() }}" style="width: 150px" />
+                        </a>
+
+                        {% if index %}
+                        <hr />
+                        {% endif %}
+
                     {% endfor %}
                 </td>
             </tr>
@@ -78,5 +92,42 @@
         </table>
     </div>
     {% endfor %}
+    <br />
+
+    <script>
+    function switchMediaTab(event) {
+        const element = event.target
+        const mediaId = element.getAttribute('data-media-id')
+
+        document.querySelectorAll('#media-tabs .nav-link').forEach(element => element.classList.remove('active'))
+        element.classList.add('active')
+
+        document.querySelectorAll('.media-details').forEach(element => element.style.display = 'none')
+        document.querySelector('#media-' + mediaId).style.display = 'block'
+    }
+    </script>
+
+    <!-- Content info -->
+    <h2>Content</h2>
+    <p>Title: {{ content.title }}</p>
+    <p>Description: {{ content.description }}</p>
+    <blockquote class="blockquote">
+        {{ content.content | raw }}
+    </blockquote>
+    <br />
+
+    <!-- Ajax suggestions -->
+    <h2>Suggestions</h2>
+    <div data-fetch-target="/ajax/suggestions/{{ publishment.slug }}" data-fetch-limit="8" data-auto-fetch="true">
+        <div data-fetch-results class="row">
+            <div data-fetch-result class="col-6 col-lg-3 mb-3">
+                {% include 'components/publishment_box.html' %}
+            </div>
+        </div>
+        <div class="text-center">
+            <div data-fetch-loader>...Loading...</div>
+            <button data-fetch-send-request class="btn btn-primary m-auto">Load more</button>
+        </div>
+    </div>
 
 {% endblock %}
