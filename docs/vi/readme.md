@@ -38,9 +38,9 @@
 
 # Common Javascript
 
-Chèn app.js để sử dụng các common functions:
+Chèn `components/common_js.html` để sử dụng các common functions:
 ```html
-<script src="{{ url('js/app.js') }}"></script>
+{% include 'components/common_js.html' %}
 ```
 
 # Lưu ý đặc biệt:
