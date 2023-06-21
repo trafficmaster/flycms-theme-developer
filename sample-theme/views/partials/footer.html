@@ -36,7 +36,7 @@
                 {% for menuItem in footerMenu %}
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
-                    <a href="{{ menuItem.link }}"><h6 class="text-uppercase fw-bold text-white">{{ menuItem.text }}</h6></a>
+                    <a href="{{ menuItem.link }}" target="{{ menuItem.new_tab ? '_blank' : '' }}"><h6 class="text-uppercase fw-bold text-white">{{ menuItem.text }}</h6></a>
                     <hr
                         class="mb-4 mt-0 d-inline-block mx-auto"
                         style="width: 60px; background-color: #7c4dff; height: 2px"
@@ -44,7 +44,7 @@
 
                     {% for subMenuItem in menuItem.items %}
                     <p>
-                        <a href="{{ subMenuItem.link }}" class="text-white">{{ subMenuItem.text }}</a>
+                        <a href="{{ subMenuItem.link }}" target="{{ subMenuItem.new_tab ? '_blank' : '' }}" class="text-white">{{ subMenuItem.text }}</a>
                     </p>
                     {% endfor %}
                 </div>
