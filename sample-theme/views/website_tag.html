@@ -1,0 +1,49 @@
+{% extends 'layouts/default.html' %}
+
+{% block content %}
+    <h1>WebsiteTag information:</h1>
+    <table class="table table-bordered">
+        <tr>
+            <td>Website Tag Group</td>
+            <td>
+                {% if websiteTagGroup %}
+                    <a href="{{ link_to(websiteTagGroup) }}">{{ websiteTagGroup.name }}</a>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>{{ websiteTag.name }}</td>
+        </tr>
+        <tr>
+            <td>Slug</td>
+            <td>{{ websiteTag.slug }}</td>
+        </tr>
+        <tr>
+            <td>SEO Title</td>
+            <td>{{ websiteTag.seo_title }}</td>
+        </tr>
+        <tr>
+            <td>SEO Description</td>
+            <td>{{ websiteTag.seo_description }}</td>
+        </tr>
+        <tr>
+            <td>Content</td>
+            <td>
+                {{ websiteTag.content | raw }}
+            </td>
+        </tr>
+        <tr>
+            <td>Public publishments count</td>
+            <td>{{ websiteTag.public_publishments_count }}</td>
+        </tr>
+        <tr>
+            <td>Sorting</td>
+            <td>{{ websiteTag.sorting }}</td>
+        </tr>
+    </table>
+    <br />
+
+    <h2>Publishments:</h2>
+    {% include 'components/list_publishments.html' with { publishments, publishmentsCount } %}
+{% endblock %}

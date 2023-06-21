@@ -1,0 +1,20 @@
+{% if publishments %}
+<div class="row">
+    {% for publishment in publishments %}
+    <div class="col-6 col-lg-3 mt-3">
+        {% include 'components/publishment_box.html' with { publishment } %}
+    </div>
+    {% endfor %}
+
+    {% if publishmentsCount %}
+    <div class="col-12 mt-3 text-center">
+        {%
+        include 'components/pagination_bootstrap.html'
+        with {
+        count: publishmentsCount
+        }
+        %}
+    </div>
+    {% endif %}
+</div>
+{% endif %}

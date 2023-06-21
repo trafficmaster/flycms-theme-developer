@@ -13,6 +13,22 @@
             <td>Description</td>
             <td>{{ publishment.description }}</td>
         </tr>
+        <tr>
+            <td>Categories</td>
+            <td>
+                {% for websiteCategory in model_relation(publishment, 'websiteCategories') %}
+                <a href="{{ link_to(websiteCategory) }}">{{ websiteCategory.title }}</a>,
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Tags</td>
+            <td>
+                {% for websiteTag in model_relation(publishment, 'websiteTags') %}
+                <a href="{{ link_to(websiteTag) }}">{{ websiteTag.name }}</a>,
+                {% endfor %}
+            </td>
+        </tr>
     </table>
     <br />
 
