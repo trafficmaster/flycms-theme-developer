@@ -6,7 +6,7 @@
     <title>{{ pageTitle }}</title>
     <link href="{{ link_asset('css/bootstrap.css') }}" rel="stylesheet" />
 
-    <script src="http://localhost/js/app.js?t={{ time() }}"></script>
+    <script src="{{ url('js/app.js') }}?t={{ time() }}"></script>
 </head>
 <body>
     {% include 'partials/navbar.html' %}
