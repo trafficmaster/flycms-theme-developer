@@ -242,8 +242,9 @@ class Dev extends Command
      * @param string $themeId
      * @param RecursiveIteratorIterator $viewFiles
      * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function watchViews(Client $client, string $themeId, RecursiveIteratorIterator $viewFiles)
+    protected function watchViews(Client $client, string $themeId, RecursiveIteratorIterator $viewFiles): void
     {
         // Get views from api
         $viewResources = $this->getAllResources($client, 'api/views', ['filter[theme_id]' => $themeId]);
@@ -310,7 +311,7 @@ class Dev extends Command
      * Spot updated files and return a collection of Resource
      *
      * @param string $resourceNamespace
-     * @param array $localFiles
+     * @param RecursiveIteratorIterator $localFiles
      * @param Collection $remoteResources
      * @return Collection
      */
@@ -344,7 +345,9 @@ class Dev extends Command
     }
 
     /**
-     * @param $resourceNamespace
+     * Spot deleted resources
+     *
+     * @param string $resourceNamespace
      * @param RecursiveIteratorIterator $localFiles
      * @param Collection $remoteResources
      * @return Collection
@@ -380,6 +383,7 @@ class Dev extends Command
      * @param Resource $resource
      * @param array $data
      * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function updateResource(Client $client, Resource $resource, array $data = []): bool
     {
@@ -417,8 +421,10 @@ class Dev extends Command
     /**
      * Delete resource
      *
+     * @param Client $client
      * @param Resource $resource
      * @return bool
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function deleteResource(Client $client, Resource $resource): bool
     {
@@ -437,9 +443,13 @@ class Dev extends Command
     }
 
     /**
+     * Get all resources
+     *
      * @param Client $client
      * @param string $uri
+     * @param array $query
      * @return Collection
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function getAllResources(Client $client, string $uri, array $query = []): Collection
     {
