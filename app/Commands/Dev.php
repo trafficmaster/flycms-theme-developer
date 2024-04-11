@@ -3,7 +3,9 @@
 namespace App\Commands;
 
 use App\Resource;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Str;
 use LaravelZero\Framework\Commands\Command;
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
@@ -97,6 +99,15 @@ class Dev extends Command
 
         $websiteId = $this->ask('Select website');
 
+        // Try to touch the website
+        try {
+            $this->touchWebsite($client, $websiteId);
+        } catch (\Exception $e) {
+            $this->error('Failed to touch the website.');
+            dump($e->getMessage());
+            return;
+        }
+
         // List themes
         $this->info('Listing themes...');
         $themesResponse = $client->get('api/themes?limit=100');
@@ -160,8 +171,16 @@ class Dev extends Command
 
         $this->info('Start watching...');
         while (true) {
-            $this->watchAssets($client, $themeId, $this->scanDir($this->path.DIRECTORY_SEPARATOR.'assets'));
-            $this->watchViews($client, $themeId, $this->scandir($this->path.DIRECTORY_SEPARATOR.'views'));
+            $changes = 0;
+            $changes += $this->watchAssets($client, $themeId);
+            $changes += $this->watchViews($client, $themeId);
+
+            if ($changes > 0) {
+                $this->info($changes.' '.Str::plural('change', $changes).' detected. Syncing...');
+                $this->touchWebsite($client, $websiteId);
+                $this->info('Synced successfully!');
+            }
+
             sleep($interval);
         }
     }
@@ -169,17 +188,19 @@ class Dev extends Command
     /**
      * @param Client $client
      * @param string $themeId
-     * @param RecursiveIteratorIterator $assetFiles
-     * @return void
+     * @return int Changes
+     * @throws GuzzleException
      */
-    protected function watchAssets(Client $client, string $themeId, RecursiveIteratorIterator $assetFiles)
+    protected function watchAssets(Client $client, string $themeId): int
     {
+        $changes = 0;
+
         // Get assets from api
         $assetResources = $this->getAllResources($client, 'api/assets', ['filter[theme_id]' => $themeId]);
 
         // Skip if assets folder not found
         if (!is_dir($this->path.DIRECTORY_SEPARATOR.'assets')) {
-            return;
+            return $changes;
         }
 
         $assetFiles = $this->scandir($this->path.DIRECTORY_SEPARATOR.'assets');
@@ -213,6 +234,8 @@ class Dev extends Command
                 }
                 $this->error('Failed to sync '.$assetFile->getRelativePath());
             }
+
+            $changes++;
         }
 
         // Delete assets
@@ -232,7 +255,11 @@ class Dev extends Command
                 }
                 $this->error('Failed to delete '.$assetResource->getRelativePath());
             }
+
+            $changes++;
         }
+
+        return $changes;
     }
 
     /**
@@ -240,18 +267,19 @@ class Dev extends Command
      *
      * @param Client $client
      * @param string $themeId
-     * @param RecursiveIteratorIterator $viewFiles
-     * @return void
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return int Changes
+     * @throws GuzzleException
      */
-    protected function watchViews(Client $client, string $themeId, RecursiveIteratorIterator $viewFiles): void
+    protected function watchViews(Client $client, string $themeId): int
     {
+        $changes = 0;
+
         // Get views from api
         $viewResources = $this->getAllResources($client, 'api/views', ['filter[theme_id]' => $themeId]);
 
         // Skip if views folder not found
         if (!is_dir($this->path.DIRECTORY_SEPARATOR.'views')) {
-            return;
+            return $changes;
         }
 
         $viewFiles = $this->scandir($this->path.DIRECTORY_SEPARATOR.'views');
@@ -274,6 +302,8 @@ class Dev extends Command
                 }
                 $this->error('Failed to sync '.$viewFile->getRelativePath());
             }
+
+            $changes++;
         }
 
         // Delete views
@@ -293,7 +323,11 @@ class Dev extends Command
                 }
                 $this->error('Failed to delete '.$viewResource->getRelativePath());
             }
+
+            $changes++;
         }
+
+        return $changes;
     }
 
     /**
@@ -377,13 +411,27 @@ class Dev extends Command
     }
 
     /**
+     * Touch website
+     *
+     * @param Client $client
+     * @param string $websiteId
+     * @return bool
+     * @throws GuzzleException
+     */
+    protected function touchWebsite(Client $client, string $websiteId): bool
+    {
+        $response = $client->post('api/websites/'.$websiteId.':touch');
+        return $response->getStatusCode() === 200;
+    }
+
+    /**
      * Update resource
      *
      * @param Client $client
      * @param Resource $resource
      * @param array $data
      * @return bool
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     protected function updateResource(Client $client, Resource $resource, array $data = []): bool
     {
@@ -424,7 +472,7 @@ class Dev extends Command
      * @param Client $client
      * @param Resource $resource
      * @return bool
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     protected function deleteResource(Client $client, Resource $resource): bool
     {
@@ -449,7 +497,7 @@ class Dev extends Command
      * @param string $uri
      * @param array $query
      * @return Collection
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     protected function getAllResources(Client $client, string $uri, array $query = []): Collection
     {
