@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use App\Resource;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Str;
@@ -503,15 +504,25 @@ class Dev extends Command
     {
         $data = [];
 
+        $retryDelay = 5;
+
         $page = 1;
         $limit = 100;
         while (true) {
-            $response = $client->get($uri, [
-                'query' => array_merge($query, [
-                    'page' => $page,
-                    'limit' => $limit
-                ])
-            ]);
+
+            try {
+                $response = $client->get($uri, [
+                    'query' => array_merge($query, [
+                        'page' => $page,
+                        'limit' => $limit
+                    ])
+                ]);
+            } catch (ConnectException $e) {
+                $this->error('Failed to connect to the API. Error: '.$e->getMessage());
+                $this->line('Retrying in '.$retryDelay.' seconds...');
+                sleep($retryDelay);
+                continue;
+            }
 
             // Break if request failed
             if ($response->getStatusCode() !== 200) {
