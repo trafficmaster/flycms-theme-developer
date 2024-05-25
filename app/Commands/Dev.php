@@ -436,35 +436,40 @@ class Dev extends Command
      */
     protected function updateResource(Client $client, Resource $resource, array $data = []): bool
     {
-        $content = base64_encode(file_get_contents($resource->getAbsolutePath()));
+        try {
+            $content = base64_encode(file_get_contents($resource->getAbsolutePath()));
 
-        // Update
-        if ($id = $resource->getReference()) {
-            $updateResponse = $client->patch('api/'.$resource->getResourceNamespace().'/'.$id, [
+            // Update
+            if ($id = $resource->getReference()) {
+                $updateResponse = $client->patch('api/'.$resource->getResourceNamespace().'/'.$id, [
+                    'json' => array_merge($data, [
+                        'path' => $resource->getRelativePath(),
+                        'content' => $content
+                    ])
+                ]);
+
+                return $updateResponse->getStatusCode() === 200;
+            }
+
+            // Create
+            $createResponse = $client->post('api/'.$resource->getResourceNamespace(), [
                 'json' => array_merge($data, [
+                    'theme_id' => $this->themeId,
                     'path' => $resource->getRelativePath(),
                     'content' => $content
                 ])
             ]);
 
-            return $updateResponse->getStatusCode() === 200;
-        }
+            if ($createResponse->getStatusCode() !== 201) {
+                dump((string) $createResponse->getBody());
+                return false;
+            }
 
-        // Create
-        $createResponse = $client->post('api/'.$resource->getResourceNamespace(), [
-            'json' => array_merge($data, [
-                'theme_id' => $this->themeId,
-                'path' => $resource->getRelativePath(),
-                'content' => $content
-            ])
-        ]);
-
-        if ($createResponse->getStatusCode() !== 201) {
-            dump((string) $createResponse->getBody());
+            return true;
+        } catch (\Exception $e) {
+            dump($e->getMessage());
             return false;
         }
-
-        return true;
     }
 
     /**
