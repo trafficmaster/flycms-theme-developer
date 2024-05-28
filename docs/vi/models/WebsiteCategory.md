@@ -10,7 +10,7 @@
 | seo_title                 | string               | SEO title                              |
 | seo_description           | string               | SEO description                        |
 | content                   | string               | Content (HTML)                         |
-| public_publishments_count | integer              | Public publishments count              |
+| public_posts_count | integer              | Public posts count              |
 | sorting                   | integer              | Sorting                                |
 
 ## Relations

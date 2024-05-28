@@ -7,8 +7,8 @@
 VD:
 ```twig
 <!-- Không làm như này trong template -->
-{{ set subject = publishment.subject }}
+{{ set subject = post.subject }}
 
 <!-- Nên làm như này -->
-{{ set subject = model_relation(publishment, 'subject') }}
+{{ set subject = model_relation(post, 'subject') }}
 ```

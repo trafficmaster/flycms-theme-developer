@@ -1,4 +1,4 @@
-# Publishment Model
+# Post Model
 
 ## Attributes
 
@@ -22,6 +22,6 @@
 |-------------------|----------------------------------------|----------------------------------------------------|
 | thumbnailFile     | App\Models\File                        | Ảnh thumbnail                                      |
 | subject           | App\Models\Subject                     | Subject                                            |
-| contents          | Collection<App\Models\Content>         | Tất cả contents của publishment (tất cả các parts) |
+| contents          | Collection<App\Models\Content>         | Tất cả contents của post (tất cả các parts) |
 | websiteCategories | Collection<App\Models\WebsiteCategory> | Categories                                         |
 | websiteTags       | Collection<App\Models\WebsiteTag>      | Tags                                               |

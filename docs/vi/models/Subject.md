@@ -1,5 +1,5 @@
 # Subject Model
-- Subject là 1 chủ đề về nội dung, và được publish ra nhiều website (Publishment)
+- Subject là 1 chủ đề về nội dung, và được publish ra nhiều website (Post)
 - Subject có thể có nhiều phần (Part). VD web phim/truyện
 
 ## Attributes

@@ -13,16 +13,16 @@
 - Hướng dẫn chi tiết về từng template có thể xem thêm tại file .md có tên tương ứng.
 - Bên trong /views sẽ có các files templates sau.
 
-| Template              | Mô tả                    |
-|-----------------------|--------------------------|
-| home.html             | Trang chủ                |
-| page.html             | Trang page tự do         |
-| publishment.html      | Trang publishment detail |
-| search.html           | Trang search             |
-| website_category.html | Trang category           |
-| website_tag.html | Trang tag                |
-| website_tag_group.html | Trang tag group          | 
-| error.html            | Trang báo lỗi            |
+| Template               | Mô tả              |
+|------------------------|--------------------|
+| home.html              | Trang chủ          |
+| page.html              | Trang page tự do   |
+| post.html              | Trang post details |
+| search.html            | Trang search       |
+| website_category.html  | Trang category     |
+| website_tag.html       | Trang tag          |
+| website_tag_group.html | Trang tag group    | 
+| error.html             | Trang báo lỗi      |
 
 # Global variables
 - Dưới dây là danh sách các biến global có thể gọi ra ở mọi templates.
@@ -36,12 +36,26 @@
 # Extensions
 - Danh sách các extensions trong template environment, xem thêm tại `./extensions`
 
-# Common Javascript
+# Common JS & CSS
 
-Chèn `components/common_js.html` để sử dụng các common functions:
+Chèn `components/common_css.html` vào cuối thẻ <head> để sử dụng các common styles:
+```html
+{% include 'components/common_css.html' %}
+```
+
+Chèn `components/common_js.html` vào cuối thẻ <body> để sử dụng các common functions:
 ```html
 {% include 'components/common_js.html' %}
 ```
 
 # Lưu ý đặc biệt:
-- Trong template, không gọi model relation trực tiếp mà phải gọi qua hàm `model_relation` (Xem thêm: `./docs/model.md`)
+- Trong template, không gọi model relation trực tiếp mà phải gọi qua hàm `model_relation` (Xem thêm: `./docs/model.md`). 
+
+VD:
+```twig
+<!-- Sai -->
+{% set thumbnailFile = post.thumbnailFile %}
+
+<!-- Đúng -->
+{% set thumbnailFile = model_relation(post, 'thumbnailFile') %}
+```

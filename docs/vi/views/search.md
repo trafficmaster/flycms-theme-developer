@@ -8,8 +8,8 @@
 | keywords         | string                    | Từ khoá người dùng search          |
 | websiteTags      | Collection\<WebsiteTag\>  | Các website tags matched           |
 | websiteTagsCount | int                       | Tổng số lượng website tags matched |
-| publishments     | Collection\<Publishment>  | Các publishments matched           |
-| publishmentsCount | int                       | Tổng số lượng publishments matched |
+| posts     | Collection\<Post>  | Các posts matched           |
+| postsCount | int                       | Tổng số lượng posts matched |
 
 # Lưu ý:
 

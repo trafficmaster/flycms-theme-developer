@@ -10,5 +10,5 @@
 
 VD:
 ```twig
-Publishment visibility: {{ enum_value(publishment.visibility) }}
+Post visibility: {{ enum_value(post.visibility) }}
 ```

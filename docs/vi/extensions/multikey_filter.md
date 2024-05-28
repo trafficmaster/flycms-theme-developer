@@ -1,15 +1,15 @@
 # MultikeyFilterExtension
-- Cung cấp các hàm liên quan tới MultikeyFilter (sử dụng để get publishments)
+- Cung cấp các hàm liên quan tới MultikeyFilter (sử dụng để get posts)
 
-## Function `multikey_filter_publishment_query(bool $paginate = true): App\Contracts\MultikeyFilter\MultikeyFilterQuery`
-- Khởi tạo đối tương `MultikeyFilterQuery` đối với `Publishment`
+## Function `multikey_filter_post_query(bool $paginate = true): App\Contracts\MultikeyFilter\MultikeyFilterQuery`
+- Khởi tạo đối tương `MultikeyFilterQuery` đối với `Post`
 - Có thể sử dụng đối tượng này để build query sau đó từ query get ra kết quả.
 
 Danh sách các methods của `MultikeyFilterQuery`
 
 | Method                                                | Mô tả                                                                                |
 |-------------------------------------------------------|--------------------------------------------------------------------------------------|
-| setReferences(array $references)                      | Truyền vào các publishment ids                                                       |
+| setReferences(array $references)                      | Truyền vào các post ids                                                       |
 | setFilterKeys(array $keys)                            | Truyền vào array các filter keys, VD: ['website_category:{id1}', 'website_tag:{id}'] |
 | setFilterKeyMatchingType(string $type)                | all: Phải khớp tất cả các filter keys, hoặc one: chỉ cần khớp ít nhất 1 filter key   |
 | where(string $field, string $operation, mixed $value) | VD: where('visibility', '=', 'public')                                               |
@@ -22,7 +22,7 @@ Danh sách các methods của `MultikeyFilterQuery`
 VD:
 ```twig
 {% 
-    set query = multikey_filter_publishment_query()
+    set query = multikey_filter_post_query()
         .where('visibility', '=', 'public')
         .setFilterKeys(['website_category:1', 'website_category:2'])
         .setFilterKeyMatchingType('all')
@@ -32,15 +32,15 @@ VD:
 %}
 ```
 
-## Function `multikey_filter_get_publishments(MultikeyFilterQuery $query, int $cacheTime = 300): Collection<Publishment>`
-- Lấy ra publishments theo query nhận được.
+## Function `multikey_filter_get_posts(MultikeyFilterQuery $query, int $cacheTime = 300): Collection<Post>`
+- Lấy ra posts theo query nhận được.
 
 VD:
 ```twig
-{% set publishments = multikey_filter_get_publishments(query) %}
+{% set posts = multikey_filter_get_posts(query) %}
 
-{% for publishment in publishments %}
-    {{ publishment.title }}<br />
+{% for post in posts %}
+    {{ post.title }}<br />
 {% endfor %}
 ```
 
@@ -49,6 +49,6 @@ VD:
 
 VD:
 ```twig
-{% set query = multikey_filter_publishment_query().where('visibility', '=', 'public') %}
-Tổng số publishments: {{ muiltikey_filter_count(query) }}
+{% set query = multikey_filter_post_query().where('visibility', '=', 'public') %}
+Tổng số posts: {{ muiltikey_filter_count(query) }}
 ```

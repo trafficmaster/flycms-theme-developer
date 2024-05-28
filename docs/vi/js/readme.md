@@ -3,3 +3,5 @@ Include components/common_js.html vào theme để sử dụng các common funct
 ```html
 {% include 'components/common_js.html' %}
 ```
+
+CommonJS mặc định đã bao gồm AlpineJS

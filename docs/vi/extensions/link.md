@@ -5,14 +5,14 @@
 - Hoạt động tương tự hàm `url()` của Laravel
 
 ## Function `link_to(Model $resource): string`
-- Có thể truyền vào 1 resource bất kì (WebsiteCategory, WebsiteTagGroup, Publishment...)
+- Có thể truyền vào 1 resource bất kì (WebsiteCategory, WebsiteTagGroup, Post...)
 - Trả về url tới resource tương ứng.
 
 ## Function `link_search(?string $keywords = null): string`
 - Trả về url tới search page
 
-## Function `link_publishment(Publishment $publishment, ?int $partSequence): string`
-- Trả về url tới publishment & part sequence tương ứng.
+## Function `link_post(Post $post, ?int $partSequence): string`
+- Trả về url tới post & part sequence tương ứng.
 
 ## Function `link_asset(string $path): string`
 - Trả về URL của theme asset. VD: Trong theme có file /assets/sample.js, thì có thể gọi tới URL của file này bằng cách `{{ link_asset('sample.js') }}`
