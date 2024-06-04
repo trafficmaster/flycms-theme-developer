@@ -5,18 +5,18 @@
 
     <ul id="search-tabs" class="nav nav-tabs mt-5">
         <li class="nav-item">
-            <span onclick="switchTab(event)" class="nav-link active" aria-current="page" style="cursor: pointer" data-content-id="search-publishments">Publishments ({{ publishmentsCount }})</span>
+            <span onclick="switchTab(event)" class="nav-link active" aria-current="page" style="cursor: pointer" data-content-id="search-posts">Posts ({{ postsCount }})</span>
         </li>
         <li class="nav-item">
             <span onclick="switchTab(event)" class="nav-link" aria-current="page" style="cursor: pointer" data-content-id="search-tags">Tags ({{ websiteTagsCount }})</span>
         </li>
     </ul>
 
-    <div id="search-publishments" class="tab-content">
+    <div id="search-posts" class="tab-content">
         {%
-            include 'components/list_publishments.html' with {
-                publishments,
-                publishmentsCount
+            include 'components/list_posts.html' with {
+                posts,
+                postsCount
             }
         %}
     </div>

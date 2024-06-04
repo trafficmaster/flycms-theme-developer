@@ -29,8 +29,8 @@
             <td>{{ websiteCategory.content | raw }}</td>
         </tr>
         <tr>
-            <td>Public publishments count</td>
-            <td>{{ websiteCategory.public_publishments_count }}</td>
+            <td>Public posts count</td>
+            <td>{{ websiteCategory.public_posts_count }}</td>
         </tr>
         <tr>
             <td>Sorting</td>
@@ -39,7 +39,7 @@
     </table>
     <br />
 
-    <h2>Publishments:</h2>
-    {% include 'components/list_publishments.html' with { publishments, publishmentsCount } %}
+    <h2>Posts:</h2>
+    {% include 'components/list_posts.html' with { posts, postsCount } %}
 
 {% endblock %}

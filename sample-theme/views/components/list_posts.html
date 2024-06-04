@@ -1,17 +1,17 @@
-{% if publishments %}
+{% if posts %}
 <div class="row">
-    {% for publishment in publishments %}
+    {% for post in posts %}
     <div class="col-6 col-lg-3 mt-3">
-        {% include 'components/publishment_box.html' with { publishment } %}
+        {% include 'components/post_box.html' with { post } %}
     </div>
     {% endfor %}
 
-    {% if publishmentsCount %}
+    {% if postsCount %}
     <div class="col-12 mt-3 text-center">
         {%
         include 'components/pagination_bootstrap.html'
         with {
-        count: publishmentsCount
+        count: postsCount
         }
         %}
     </div>

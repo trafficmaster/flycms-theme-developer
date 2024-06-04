@@ -1,0 +1,19 @@
+{% if post %}
+    {% set thumbnailFile = model_relation(post, 'thumbnailFile') %}
+    {% set thumbnailUrl = image_resize(300, thumbnailFile) ?: link_asset('images/default.png') %}
+{% endif %}
+<div class="card" style="width: 18rem;">
+
+    <img
+        src="{{ thumbnailUrl }}"
+        data-fetch-result-thumbnail="{{ link_asset('images/default.png') }}"
+        class="card-img-top"
+        alt="{{ post.title }}"
+    />
+
+    <div class="card-body">
+        <h5 data-fetch-result-title class="card-title">{{ post.title }}</h5>
+        <p data-fetch-result-description class="card-text">{{ post.description }}</p>
+        <a data-fetch-result-url href="{{ post ? link_to(post) : '#' }}" class="btn btn-primary">View</a>
+    </div>
+</div>

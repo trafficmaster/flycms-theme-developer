@@ -2,21 +2,21 @@
 
 {% block content %}
 
-    <!-- Publishment info -->
-    <h1>Publishment information:</h1>
+    <!-- Post info -->
+    <h1>Post information:</h1>
     <table class="table table-bordered">
         <tr>
             <td>Title</td>
-            <td>{{ publishment.title }}</td>
+            <td>{{ post.title }}</td>
         </tr>
         <tr>
             <td>Description</td>
-            <td>{{ publishment.description }}</td>
+            <td>{{ post.description }}</td>
         </tr>
         <tr>
             <td>Categories</td>
             <td>
-                {% for websiteCategory in model_relation(publishment, 'websiteCategories') %}
+                {% for websiteCategory in model_relation(post, 'websiteCategories') %}
                 <a href="{{ link_to(websiteCategory) }}">{{ websiteCategory.title }}</a>,
                 {% endfor %}
             </td>
@@ -24,7 +24,7 @@
         <tr>
             <td>Tags</td>
             <td>
-                {% for websiteTag in model_relation(publishment, 'websiteTags') %}
+                {% for websiteTag in model_relation(post, 'websiteTags') %}
                 <a href="{{ link_to(websiteTag) }}">{{ websiteTag.name }}</a>,
                 {% endfor %}
             </td>
@@ -42,10 +42,10 @@
         <tr>
             <td>Total Parts</td>
             <td>
-                {{ publishment.subject.parts_count }}
+                {{ post.subject.parts_count }}
                 <hr />
                 {% for _part in parts %}
-                <a href="{{ link_publishment(publishment, _part.sequence) }}"
+                <a href="{{ link_post(post, _part.sequence) }}"
                     {% if _part.sequence is same as part.sequence %}
                     style="font-weight: bolder"
                     {% endif %}
@@ -134,15 +134,17 @@
 
     <!-- Ajax suggestions -->
     <h2>Suggestions</h2>
-    <div data-fetch-target="/ajax/suggestions/{{ publishment.slug }}" data-fetch-limit="8" data-auto-fetch="true">
-        <div data-fetch-results class="row">
-            <div data-fetch-result class="col-6 col-lg-3 mb-3">
-                {% include 'components/publishment_box.html' %}
-            </div>
+    <div x-data="list('/ajax/suggestions/{{ post.slug }}')">
+        <div class="row">
+            <template x-for="post in data">
+                <div data-fetch-result class="col-6 col-lg-3 mb-3">
+                    <a :href="post.url" x-text="post.title"></a>
+                </div>
+            </template>
         </div>
         <div class="text-center">
-            <div data-fetch-loader>...Loading...</div>
-            <button data-fetch-send-request class="btn btn-primary m-auto">Load more</button>
+            <div x-show="isLoading">...Loading...</div>
+            <button x-bind="trigger" class="btn btn-primary m-auto">Load more</button>
         </div>
     </div>
 

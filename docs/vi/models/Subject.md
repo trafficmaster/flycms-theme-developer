@@ -10,3 +10,6 @@
 | title       | string  | Title        |
 | description | string  | Description  |
 | parts_count | integer | Tổng số Part |
+
+## Traits
+- HasMeta
