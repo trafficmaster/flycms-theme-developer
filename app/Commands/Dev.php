@@ -85,20 +85,20 @@ class Dev extends Command
         }
         $this->info('Connected successfully!');
 
-        // List websites
-        $this->info('Listing websites...');
-        $websitesResponse = $client->get('api/websites?limit=100');
-        if ($websitesResponse->getStatusCode() !== 200) {
-            $this->error('Failed to list websites.');
-            dump((string) $websitesResponse->getBody());
+        // Enter domain
+        $devDomain = $this->ask('Dev domain');
+        $domainResponse = $client->get('api/domains?filter[domain]='.$devDomain);
+        if ($domainResponse->getStatusCode() !== 200) {
+            $this->error('Failed to get domain.');
+            dump((string) $domainResponse->getBody());
             return;
         }
-        $websites = json_decode($websitesResponse->getBody())->data;
-        foreach ($websites as $website) {
-            $this->line($website->id.': '.$website->name);
+        $domain = json_decode($domainResponse->getBody())->data[0] ?? null;
+        $websiteId = $domain?->website_id;
+        if (!$websiteId) {
+            $this->error('Website not found.');
+            return;
         }
-
-        $websiteId = $this->ask('Select website');
 
         // Try to touch the website
         try {
@@ -134,7 +134,8 @@ class Dev extends Command
             $createThemeResponse = $client->post('api/themes', [
                 'json' => [
                     'name' => $name,
-                    'key' => $key
+                    'key' => $key,
+                    'dev_mode' => $devMode = $this->confirm('Dev Mode?', true)
                 ]
             ]);
             if ($createThemeResponse->getStatusCode() !== 201) {
@@ -142,7 +143,7 @@ class Dev extends Command
                 dump((string) $createThemeResponse->getBody());
                 return;
             }
-            $this->info('Theme created successfully!');
+            $this->info('Theme created successfully! Dev Mode: '.($devMode ? 'ON' : 'OFF'));
 
             $themeId = json_decode($createThemeResponse->getBody())->data->id;
         }
