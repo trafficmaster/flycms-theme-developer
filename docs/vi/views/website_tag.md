@@ -8,3 +8,8 @@
 | websiteTagGroup | App\models\WebsiteTagGroup | WebsiteTagGroup tương ứng |
 | posts           | Collection\<Post>          | List posts matched        |
 | postsCount      | int                        | Tổng số posts matched     |
+| listData | ListData | Xem thêm: standard-data/ListData.md                                               |
+
+# Post filter query params:
+
+Tương tự website_category.md

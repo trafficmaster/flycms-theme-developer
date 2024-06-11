@@ -8,8 +8,9 @@
 | keywords         | string                    | Từ khoá người dùng search          |
 | websiteTags      | Collection\<WebsiteTag\>  | Các website tags matched           |
 | websiteTagsCount | int                       | Tổng số lượng website tags matched |
-| posts     | Collection\<Post>  | Các posts matched           |
-| postsCount | int                       | Tổng số lượng posts matched |
+| posts            | Collection\<Post>         | Các posts matched                  |
+| postsCount       | int                       | Tổng số lượng posts matched        |
+| listData         | ListData                  | ListData                           |
 
 # Lưu ý:
 
