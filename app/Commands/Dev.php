@@ -66,6 +66,8 @@ class Dev extends Command
             return;
         }
 
+        $timeout = $this->ask('Timeout (in seconds)', 3);
+
         $this->info('Connecting...');
 
         $client = new Client([
@@ -73,7 +75,8 @@ class Dev extends Command
             'http_errors' => false,
             'headers' => [
                 'api-key' => $token
-            ]
+            ],
+            'timeout' => intval($timeout)
         ]);
 
         // Test connection
