@@ -24,7 +24,7 @@ VD:
 {% 
     set query = multikey_filter_post_query()
         .where('visibility', '=', 'public')
-        .setFilterKeys(['website_category:1', 'website_category:2'])
+        .setFilterKeys(['website-category-id-1', 'website-category-id-2'])
         .setFilterKeyMatchingType('all')
         .sortBy('created_at')
         .sortDesc()
