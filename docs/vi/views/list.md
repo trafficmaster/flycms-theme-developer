@@ -1,1 +1,2 @@
-# Các controller support list.md sẽ truyền vào biến $listData (Xem mô tả về ListData trong docs/vi/standard-data).
+- list.html là template mặc định render các trang hỗ trợ ListData. Các template nhận được ListData thì đều có thể được thay thế bởi list.html (VD: home.html, search.html, website_category.html, website_tag.html, website_tag_group.html).
+- Các controllers support `list.html` sẽ truyền vào biến $listData (Xem mô tả về ListData trong docs/vi/standard-data).
