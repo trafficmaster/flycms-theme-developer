@@ -31,6 +31,7 @@ Các tham số:
 | endpoint | /ajax/some-endpoint |
 | initAutoFetch | Default: true       |
 | limit | Default: 20         | 
+| page | Initial page. Default: 1         | 
 | max | Default: 500        |
 
 Các data mà hàm này cung cấp:
