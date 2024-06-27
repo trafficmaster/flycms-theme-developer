@@ -1,0 +1,20 @@
+{% extends 'layouts/default.html' %}
+
+{% block content %}
+
+    <strong>List template will work with the ListData object. Controllers that support list.html template must inject the $listData variable. Theme engine will try to find the controller template at first, if the template couldn't be found, it'll try to find the list.html template. For example: home controller supports list.html, then if home.html doesn't exist, list.html will be called.</strong><hr />
+
+    {% if listData is defined %}
+        <h1 class="h1">{{ listData.getTitle() }}</h1>
+        <p>{{ listData.getDescription() }}</p>
+
+        <h1>List resources (count: {{ listData.getResourcesCount() }}):</h1>
+
+        {% include 'components/list_resources.html' with {
+            resources: listData.getResources(),
+            count: listData.getResourcesCount()
+        } %}
+        <hr />
+    {% endif %}
+
+{% endblock %}

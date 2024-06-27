@@ -7,6 +7,8 @@
     <link href="{{ link_asset('css/bootstrap.css') }}" rel="stylesheet" />
 
     <script src="{{ url('js/app.js') }}?t={{ time() }}"></script>
+
+    {% include 'components/common_css.html' %}
 </head>
 <body>
     {% include 'partials/navbar.html' %}
@@ -18,5 +20,7 @@
     {% include 'partials/footer.html' %}
 
     <script src="{{ link_asset('js/bootstrap.bundle.js') }}"></script>
+
+    {% include 'components/common_js.html' %}
 </body>
 </html>

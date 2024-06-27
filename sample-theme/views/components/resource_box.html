@@ -1,0 +1,25 @@
+{% if resource %}
+<div class="card" style="width: 18rem;">
+
+    {% set thumbnailFile = resource.getThumbnailFile() %}
+    <img
+        src="{{ thumbnailFile ? image_resize(300, thumbnailFile) : link_asset('images/default.png') }}"
+        class="card-img-top"
+        alt="{{ resource.getTitle() }}"
+    />
+
+    <div class="card-body">
+
+        {% if resource.getFeaturedLabels() %}
+            {% for label in resource.getFeaturedLabels() %}
+                <span style="border: 1px solid red; padding:5px; margin: 5px">{{ label }}</span>
+            {% endfor %}
+            <br /><br />
+        {% endif %}
+
+        <h5 data-fetch-result-title class="card-title">{{ resource.getTitle() }}</h5>
+        <p data-fetch-result-description class="card-text">{{ resource.getDescription() }}</p>
+        <a data-fetch-result-url href="{{ link_to(resource) }}" class="btn btn-primary">View Resource</a>
+    </div>
+</div>
+{% endif %}
