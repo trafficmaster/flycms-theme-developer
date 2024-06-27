@@ -12,8 +12,8 @@ Cấu trúc theme cần có 2 thư mục `assets` (chứa file images, js, css, 
     ./views
         ./home.html
 ```
-3. 
-4. Chạy lệnh `php theme dev {theme path}`
+
+3. Chạy lệnh `php theme dev {theme path}`
 
 VD: `php theme dev ../sample-theme`
 
@@ -21,5 +21,5 @@ Follow các bước của command
 
 - Nhập endpoint
 - Nhập user api token (xem trong admin)
-- Chọn website sẽ dev
-- Chọn theme để dev (có thể tạo mới)
+- Nhập dev domain
+- Chọn Theme ID để dev (có thể tạo mới)
