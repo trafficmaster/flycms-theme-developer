@@ -137,7 +137,9 @@
     <div x-data="list('/ajax/suggestions/{{ post.slug }}')">
         <div class="row">
             <template x-for="post in data">
-                <div data-fetch-result class="col-6 col-lg-3 mb-3">
+                <div class="col-6 col-lg-3 mb-3">
+                    <img :src="post.thumbnail_file_url || '{{ link_asset('images/default.png') }}'" />
+                    <br />
                     <a :href="post.url" x-text="post.title"></a>
                 </div>
             </template>
