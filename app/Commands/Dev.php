@@ -542,9 +542,9 @@ class Dev extends Command
                 continue;
             }
 
-            // Break if request failed
+            // Continue if request failed
             if ($response->getStatusCode() !== 200) {
-                break;
+                continue;
             }
 
             $resources = json_decode($response->getBody(), true)['data'];
