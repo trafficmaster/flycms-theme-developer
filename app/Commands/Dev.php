@@ -425,8 +425,17 @@ class Dev extends Command
      */
     protected function touchWebsite(Client $client, string $websiteId): bool
     {
-        $response = $client->post('api/websites/'.$websiteId.':touch');
-        return $response->getStatusCode() === 200;
+        while (true) {
+            try {
+                $response = $client->post('api/websites/'.$websiteId.':touch');
+                return $response->getStatusCode() === 200;
+            } catch (\Exception $e) {
+                $this->error('Failed to touch the website. Error: '.$e->getMessage());
+
+                // Retrying in 3 seconds
+                sleep(3);
+            }
+        }
     }
 
     /**
