@@ -124,6 +124,10 @@ class Dev extends Command
             foreach ($themes as $theme) {
                 $this->line($theme->id.': '.$theme->name);
             }
+
+            if (!count($themes)) {
+                $this->error('No themes found. Let\'s create one.');
+            }
         }
 
         // Select theme
@@ -131,6 +135,7 @@ class Dev extends Command
         if (!$themeId) {
             if (!$name = $this->ask('Theme name') or !$key = $this->ask('Theme key')) {
                 $this->error('Theme name & key are required.');
+                return;
             }
 
             $this->info('Creating new theme...');
