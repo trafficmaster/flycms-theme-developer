@@ -7,19 +7,19 @@
 
 Danh sách các methods của `MultikeyFilterQuery`
 
-| Method                                                | Mô tả                                                                                                                                |
-|-------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| setReferences(array $references)                      | Truyền vào các post ids                                                                                                              |
-| setFilterKeys(array $keys)                            | Truyền vào array các filter keys, VD: ['{website-category-id}', '{website-tag-id}']                                                  |
-| setFilterKeyMatchingType(string $type)                | all: Phải khớp tất cả các filter keys, hoặc one: chỉ cần khớp ít nhất 1 filter key                                                   |
-| setExcludeKeys(array $keys)                           | Truyền vào array các keys sẽ bị loại trừ khỏi kết quả.                                                                               |
-| setExcludeKeyMatchingType(string $type)               | all: Chỉ loại trừ những documents chứa tất cả exclude keys, hoặc one: loại trừ những documents chứa ít nhất 1 key trong exclude keys |
-| where(string $field, string $operation, mixed $value) | VD: where('visibility', '=', 'public')                                                                                               |
-| sortBy(string $field)                                 | Xếp kết quả theo field                                                                                                               |
-| sortAsc()                                             | Xếp tăng dần                                                                                                                         |
-| sortDesc()                                            | Xếp giảm dần                                                                                                                         |
-| setLimit(int $limit)                                  | Giới hạn kết quả trả về                                                                                                              |
-| setOffset(int $offset)                                | Skip $offset kết quả                                                                                                                 |
+| Method                                                | Mô tả                                                                                                                                          |
+|-------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| setReferences(array $references)                      | Truyền vào các post ids                                                                                                                        |
+| setFilterKeys(array $keys)                            | Truyền vào array các filter keys, VD: ['{website-category-id}', '{website-tag-id}']                                                            |
+| setFilterKeyMatchingType(string $type)                | all (default): Phải khớp tất cả các filter keys, hoặc one: chỉ cần khớp ít nhất 1 filter key                                                   |
+| setExcludeKeys(array $keys)                           | Truyền vào array các keys sẽ bị loại trừ khỏi kết quả.                                                                                         |
+| setExcludeKeyMatchingType(string $type)               | all: Chỉ loại trừ những documents chứa tất cả exclude keys, hoặc one (default): loại trừ những documents chứa ít nhất 1 key trong exclude keys |
+| where(string $field, string $operation, mixed $value) | VD: where('visibility', '=', 'public')                                                                                                         |
+| sortBy(string $field)                                 | Xếp kết quả theo field                                                                                                                         |
+| sortAsc()                                             | Xếp tăng dần                                                                                                                                   |
+| sortDesc()                                            | Xếp giảm dần                                                                                                                                   |
+| setLimit(int $limit)                                  | Giới hạn kết quả trả về                                                                                                                        |
+| setOffset(int $offset)                                | Skip $offset kết quả                                                                                                                           |
 
 VD:
 ```twig
