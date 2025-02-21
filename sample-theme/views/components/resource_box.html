@@ -19,7 +19,7 @@
 
         <h5 data-fetch-result-title class="card-title">{{ resource.getTitle() }}</h5>
         <p data-fetch-result-description class="card-text">{{ resource.getDescription() }}</p>
-        <a data-fetch-result-url href="{{ link_to(resource) }}" class="btn btn-primary">View Resource</a>
+        <a data-fetch-result-url href="{{ resource.getLink() }}" class="btn btn-primary">View Resource</a>
     </div>
 </div>
 {% endif %}

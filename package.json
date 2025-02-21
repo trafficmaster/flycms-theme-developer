@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "path-to-regexp": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/path-to-regexp": "^1.7.0"
+  }
+}
